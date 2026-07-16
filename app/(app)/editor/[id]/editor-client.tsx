@@ -56,8 +56,11 @@ export default function EditorPageClient() {
   const params = useParams();
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
-  const blobId = params.id as string;
-  const isNew = blobId === 'new';
+  const rawId = params.id as string;
+  // Support /editor/new?id=<uuid> for opening existing blobs without a dynamic static path
+  const searchId = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('id') : null;
+  const blobId = searchId || rawId;
+  const isNew = !searchId && rawId === 'new';
 
   const [blob, setBlob] = React.useState<JsonBlob | null>(null);
   const [title, setTitle] = React.useState('Untitled Blob');
