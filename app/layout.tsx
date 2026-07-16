@@ -17,6 +17,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://jsonvault.netlify.app'
+  ),
   title: 'JsonVault — Modern JSON Document Management',
   description:
     'Create, edit, validate, version, and share JSON documents with a premium split-screen editor, live tree view, and secure sharing.',
