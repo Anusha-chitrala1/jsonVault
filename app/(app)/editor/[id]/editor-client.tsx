@@ -282,14 +282,19 @@ export default function EditorPageClient() {
 
   const handleReset = () => {
     setContent(defaultJson);
-    setDirty(true);
-    toast({ title: 'Editor reset to default' });
+    setTitle('Untitled Blob');
+    setDescription('');
+    setTags([]);
+    setBlob(null);
+    setDirty(false);
+    router.replace('/editor/new');
+    toast({ title: 'Editor reset — new blank blob' });
   };
 
   const handleClear = () => {
     setContent('{}');
     setDirty(true);
-    toast({ title: 'Editor cleared' });
+    toast({ title: 'Content cleared' });
   };
 
   const handleAddTag = () => {
@@ -369,7 +374,10 @@ export default function EditorPageClient() {
           <Button variant="ghost" size="sm" onClick={handleMinify} title="Minify">
             <Minimize2 className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" onClick={handleClear} title="Clear">
+          <Button variant="ghost" size="sm" onClick={handleClear} title="Clear content to {}">
+            <X className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="sm" onClick={handleReset} title="New blob (reset editor)">
             <RotateCcw className="h-4 w-4" />
           </Button>
           <Button
