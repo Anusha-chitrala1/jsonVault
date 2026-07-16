@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { addLog, updateLog } from './api-logger';
 
 const supabaseUrl =
   process.env.NEXT_PUBLIC_SUPABASE_URL ||
@@ -20,9 +21,10 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     fetch: (url, options) => {
       const method = options?.method ?? 'GET';
       const path = typeof url === 'string' ? url.replace(supabaseUrl, '') : String(url);
-      console.log(`[Supabase] ${method} ${path}`);
+      const id = addLog(method, path);
+      const start = Date.now();
       return fetch(url, options).then((res) => {
-        console.log(`[Supabase] ${method} ${path} → ${res.status}`);
+        updateLog(id, res.status, Date.now() - start);
         return res;
       });
     },

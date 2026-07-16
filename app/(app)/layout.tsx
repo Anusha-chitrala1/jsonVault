@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { AppSidebar } from '@/components/app-sidebar';
 import { CommandPalette } from '@/components/command-palette';
+import { ApiLogPanel } from '@/components/api-log-panel';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = React.useState(false);
@@ -14,6 +15,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {children}
       </div>
       <CommandPalette />
+      <ApiLogPanel />
     </div>
   );
 }
