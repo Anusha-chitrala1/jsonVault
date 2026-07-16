@@ -9,7 +9,7 @@ export function ApiLogPanel() {
   const [open, setOpen] = React.useState(false);
   const [visible, setVisible] = React.useState(true);
 
-  React.useEffect(() => subscribe(setLogs), []);
+  React.useEffect(() => { return subscribe(setLogs); }, []);
 
   if (!visible) return null;
 

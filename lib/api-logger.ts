@@ -29,10 +29,10 @@ export function updateLog(id: number, status: number, duration: number) {
   notify();
 }
 
-export function subscribe(fn: Listener) {
+export function subscribe(fn: Listener): () => void {
   listeners.add(fn);
   fn([...logs]);
-  return () => listeners.delete(fn);
+  return () => { listeners.delete(fn); };
 }
 
 export type { LogEntry };
