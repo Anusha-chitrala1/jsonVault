@@ -184,7 +184,9 @@ export default function EditorPageClient() {
         });
         fetchVersions(newBlob.id);
         toast({ title: 'Blob created', description: 'Your blob has been saved.' });
-        router.replace(`/editor/${newBlob.id}`);
+        // Stay on /editor/new — update URL without navigating to a dynamic path
+        // that doesn't exist as a static file in the Cloudflare Pages export
+        window.history.replaceState(null, '', `/editor/${newBlob.id}/`);
       } else {
         const { error: updateError } = await supabase
           .from('blobs')
