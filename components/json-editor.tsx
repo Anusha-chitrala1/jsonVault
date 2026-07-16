@@ -10,6 +10,7 @@ export interface JsonEditorProps {
   readOnly?: boolean;
   fontSize?: number;
   wordWrap?: boolean;
+  showLineNumbers?: boolean;
   className?: string;
 }
 
@@ -28,6 +29,7 @@ export function JsonEditor({
   readOnly = false,
   fontSize = 14,
   wordWrap = true,
+  showLineNumbers = true,
   className,
 }: JsonEditorProps) {
   return (
@@ -38,6 +40,7 @@ export function JsonEditor({
         readOnly={readOnly}
         fontSize={fontSize}
         wordWrap={wordWrap}
+        showLineNumbers={showLineNumbers}
       />
     </div>
   );

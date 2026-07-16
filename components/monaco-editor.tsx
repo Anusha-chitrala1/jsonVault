@@ -8,6 +8,7 @@ export interface MonacoEditorProps {
   readOnly?: boolean;
   fontSize?: number;
   wordWrap?: boolean;
+  showLineNumbers?: boolean;
 }
 
 /**
@@ -21,6 +22,7 @@ export default function MonacoEditor({
   readOnly = false,
   fontSize = 14,
   wordWrap = true,
+  showLineNumbers = true,
 }: MonacoEditorProps) {
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   const preRef = React.useRef<HTMLPreElement>(null);
@@ -55,19 +57,21 @@ export default function MonacoEditor({
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#0b1120]">
       {/* Line numbers gutter */}
-      <div
-        className="absolute left-0 top-0 bottom-0 select-none pointer-events-none z-10 text-right text-[#334155] leading-[1.5] pt-3 pb-3"
-        style={{
-          fontSize: `${fontSize}px`,
-          fontFamily: 'var(--font-jetbrains), Menlo, Monaco, monospace',
-          width: '48px',
-          padding: '12px 8px 12px 0',
-        }}
-      >
-        {Array.from({ length: lineCount }, (_, i) => (
-          <div key={i}>{i + 1}</div>
-        ))}
-      </div>
+      {showLineNumbers && (
+        <div
+          className="absolute left-0 top-0 bottom-0 select-none pointer-events-none z-10 text-right text-[#334155] leading-[1.5] pt-3 pb-3"
+          style={{
+            fontSize: `${fontSize}px`,
+            fontFamily: 'var(--font-jetbrains), Menlo, Monaco, monospace',
+            width: '48px',
+            padding: '12px 8px 12px 0',
+          }}
+        >
+          {Array.from({ length: lineCount }, (_, i) => (
+            <div key={i}>{i + 1}</div>
+          ))}
+        </div>
+      )}
 
       {/* Syntax highlighted layer */}
       <pre
@@ -77,7 +81,7 @@ export default function MonacoEditor({
         style={{
           fontSize: `${fontSize}px`,
           fontFamily: 'var(--font-jetbrains), Menlo, Monaco, monospace',
-          paddingLeft: '56px',
+          paddingLeft: showLineNumbers ? '56px' : '16px',
           paddingRight: '16px',
           color: '#e2e8f0',
           whiteSpace: wordWrap ? 'pre-wrap' : 'pre',
@@ -100,7 +104,7 @@ export default function MonacoEditor({
         style={{
           fontSize: `${fontSize}px`,
           fontFamily: 'var(--font-jetbrains), Menlo, Monaco, monospace',
-          paddingLeft: '56px',
+          paddingLeft: showLineNumbers ? '56px' : '16px',
           paddingRight: '16px',
           color: 'transparent',
           WebkitTextFillColor: 'transparent',

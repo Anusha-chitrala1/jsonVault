@@ -23,6 +23,8 @@ import {
   ChevronLeft,
   FileJson,
   X,
+  RotateCcw,
+  Hash,
 } from 'lucide-react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { Button } from '@/components/ui/button';
@@ -69,6 +71,7 @@ export default function EditorPageClient() {
   const [loading, setLoading] = React.useState(!isNew);
   const [versions, setVersions] = React.useState<BlobVersion[]>([]);
   const [showTree, setShowTree] = React.useState(true);
+  const [showLineNumbers, setShowLineNumbers] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState<'versions' | 'share' | 'info'>('info');
 
   React.useEffect(() => {
@@ -277,6 +280,18 @@ export default function EditorPageClient() {
     }
   };
 
+  const handleReset = () => {
+    setContent(defaultJson);
+    setDirty(true);
+    toast({ title: 'Editor reset to default' });
+  };
+
+  const handleClear = () => {
+    setContent('{}');
+    setDirty(true);
+    toast({ title: 'Editor cleared' });
+  };
+
   const handleAddTag = () => {
     const t = tagInput.trim();
     if (t && !tags.includes(t)) {
@@ -348,11 +363,23 @@ export default function EditorPageClient() {
           )}
         </div>
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="sm" onClick={handleFormat} title="Format">
+          <Button variant="ghost" size="sm" onClick={handleFormat} title="Pretty print">
             <Maximize2 className="h-4 w-4" />
           </Button>
           <Button variant="ghost" size="sm" onClick={handleMinify} title="Minify">
             <Minimize2 className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="sm" onClick={handleClear} title="Clear">
+            <RotateCcw className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowLineNumbers(!showLineNumbers)}
+            title={showLineNumbers ? 'Hide line numbers' : 'Show line numbers'}
+            className={showLineNumbers ? 'text-primary' : ''}
+          >
+            <Hash className="h-4 w-4" />
           </Button>
           <Button variant="ghost" size="sm" onClick={handleCopy} title="Copy">
             <Copy className="h-4 w-4" />
@@ -395,7 +422,7 @@ export default function EditorPageClient() {
                 </span>
               </div>
               <div className="flex-1">
-                <JsonEditor value={content} onChange={(v) => { setContent(v); setDirty(true); }} />
+                <JsonEditor value={content} onChange={(v) => { setContent(v); setDirty(true); }} showLineNumbers={showLineNumbers} />
               </div>
             </div>
           </Panel>
